@@ -20,7 +20,7 @@ seneca.listen({
 })
 
 seneca.ready(() => {
-  const { mongoClient } = require('mongo-client')
+  const { mongoClient } = require('edirectinsure-mongo-client')
   return mongoClient(seneca).catch(() => seneca.close())
 })
 
