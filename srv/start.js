@@ -13,10 +13,15 @@ seneca.use(Update)
 seneca.use(Delete)
 
 seneca.listen({
-  type: process.env.PROJECT_TRANSPORT || 'http',
-  host: process.env.PROJECT_HOST || '0.0.0.0',
-  port: process.env.PROJECT_PORT || process.env.PORT || 8203,
-  protocol: process.env.PROJECT_PROTOCOL || 'http',
+  ...((process.env.PROJECT_TRANSPORT === 'amqp' && {
+    type: process.env.PROJECT_TRANSPORT,
+    url: process.env.AMQP_URL
+  }) || {
+    type: process.env.PROJECT_TRANSPORT || 'http',
+    host: process.env.PROJECT_HOST || '0.0.0.0',
+    port: process.env.PROJECT_PORT || process.env.PORT || 8203,
+    protocol: process.env.PROJECT_PROTOCOL || 'http'
+  }),
   pin: { role: 'project', cmd: '*' }
 })
 
